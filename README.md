@@ -1,4 +1,4 @@
-database: https://gist.github.com/sonipranjal/8015583e89ecb75ef7361605991d7b6d
+Create a new Supabase project, for database setup, see db-design.sql file and run SQL Query 
 
 authentication setup: https://supabase.com/docs/guides/auth/auth-helpers/nextjs-server-components
 
