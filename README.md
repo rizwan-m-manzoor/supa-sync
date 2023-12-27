@@ -1,3 +1,5 @@
+# Supa Sync is a Tweet App using Next JS 13 with Supabase
+
 Create a new Supabase project, for database setup, see db-design.sql file and run SQL Query 
 
 authentication setup: https://supabase.com/docs/guides/auth/auth-helpers/nextjs-server-components
