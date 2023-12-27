@@ -1,4 +1,3 @@
-import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import { BiHomeCircle, BiUser } from "react-icons/bi";
 import {
@@ -10,7 +9,6 @@ import {
 } from "react-icons/bs";
 import { HiOutlineHashtag } from "react-icons/hi";
 import { HiEnvelope } from "react-icons/hi2";
-import { cookies, headers } from "next/headers";
 
 const NAVIGATION_ITEMS = [
   {
@@ -43,28 +41,14 @@ const NAVIGATION_ITEMS = [
   },
 ];
 
-const LeftSidebar = async () => {
-  const supabaseClient = createServerComponentSupabaseClient({
-    cookies,
-    headers,
-  });
-
-  const { data: userData, error: userError } =
-    await supabaseClient.auth.getUser();
-
+const LeftSidebar = () => {
   return (
     <section className="w-[23%] sticky top-0 xl:flex flex-col items-stretch h-screen hidden">
       <div className="flex flex-col items-stretch h-full space-y-4 mt-4">
         {NAVIGATION_ITEMS.map((item) => (
           <Link
             className="hover:bg-white/10 text-2xl transition duration-200 flex items-center justify-start w-fit space-x-4 rounded-3xl py-2 px-6"
-            href={
-              item.title.toLocaleLowerCase() === "home"
-                ? "/"
-                : item.title.toLocaleLowerCase() === "profile"
-                ? userData.user?.user_metadata.username || "#"
-                : `/${item.title.toLowerCase()}`
-            }
+            href={`/${item.title.toLowerCase()}`}
             key={item.title}
           >
             <div>
@@ -81,10 +65,8 @@ const LeftSidebar = async () => {
         <div className="flex items-center space-x-2">
           <div className="rounded-full bg-slate-400 w-10 h-10"></div>
           <div className="text-left text-sm">
-            <div className="font-semibold">
-              {userData.user?.user_metadata.full_name}
-            </div>
-            <div className="">@{userData.user?.user_metadata.username}</div>
+            <div className="font-semibold">Club Of Coders</div>
+            <div className="">@clubofcoderscom</div>
           </div>
         </div>
         <div>

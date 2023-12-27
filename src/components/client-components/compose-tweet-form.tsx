@@ -5,7 +5,13 @@ import React, { useRef } from "react";
 import { toast } from "sonner";
 
 type ComposeTweetFormProps = {
-  serverAction: any;
+  serverAction: (
+    formData: FormData
+  ) => Promise<
+    | { error: { message: string }; data?: undefined }
+    | { data: null; error: PostgrestError | null }
+    | undefined
+  >;
 };
 
 const ComposeTweetForm = ({ serverAction }: ComposeTweetFormProps) => {

@@ -6,8 +6,6 @@ import { SupabaseClient } from "@supabase/supabase-js";
 
 import { revalidatePath } from "next/cache";
 import ComposeTweetForm from "../client-components/compose-tweet-form";
-import { db } from "@/lib/db";
-import { tweets } from "@/lib/db/schema";
 
 const ComposeTweet = () => {
   async function submitTweet(formData: FormData) {
@@ -23,7 +21,7 @@ const ComposeTweet = () => {
     });
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseSecretKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY;
 
     if (!supabaseUrl || !supabaseSecretKey)
       return { error: { message: "supabase credentials are not provided!" } };
@@ -35,24 +33,15 @@ const ComposeTweet = () => {
 
     if (userError) return;
 
-    let err = "";
-
-    const res = await db
-      .insert(tweets)
-      .values({
-        text: tweet.toString(),
-        id: randomUUID(),
-        profileId: userData.user.id,
-      })
-      .returning()
-      .catch((error) => {
-        console.log(error);
-        err = "something wrong with server";
-      });
+    const { data, error } = await supabaseServer.from("tweets").insert({
+      profile_id: userData.user.id,
+      text: tweet.toString(),
+      id: randomUUID(),
+    });
 
     revalidatePath("/");
 
-    return { data: res, error: err };
+    return { data, error };
   }
 
   return <ComposeTweetForm serverAction={submitTweet} />;
